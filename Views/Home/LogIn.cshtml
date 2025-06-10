@@ -1,0 +1,164 @@
+﻿@model  PuntoVenta.Models.Accesos
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-header navbar-dark bg-dark text-white text-center">
+                    <h4>Inicia sesión</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("LogIn", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <div class="form-group ">
+                            <strong>
+                                <label class="form-label" for="ACC_DS_USR">Usuario</label>
+                                <i class="rq">*</i>:
+                            </strong>
+                            @Html.TextBoxFor(m => m.ACC_DS_USR, new { @class = "form-control", placeholder = "Usuario" })
+                            @Html.ValidationMessageFor(m => m.ACC_DS_USR, "", new { @class = "text-danger" })
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <strong>
+                                <label class="form-label" for="ACC_DS_PWDR">Contraseña</label>
+                                <i class="rq">*</i>:
+                            </strong>
+                            @Html.PasswordFor(m => m.ACC_DS_PWDR, new { @class = "form-control", placeholder = "Contraseña" })
+                            @Html.ValidationMessageFor(m => m.ACC_DS_PWDR, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <br />
+                        <div>
+                            <label class="form-label">
+                                <strong>
+                                    @Html.CheckBoxFor(m => m.session.Rememberme)  Recordar sesion.
+                                </strong>
+                            </label>
+                        </div>
+                        <div class="d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-outline-dark btn-block">
+                                <strong>Ingresar</strong>
+                            </button>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer text-center">
+                    <strong>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalContact" class="text-muted">¿Tiene un problema?</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalContact" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header navbar-dark bg-dark text-white text-center ">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">¡Contactanos ...!</h1>
+                <button type="button" class="btn btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="color: white"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Nombre(s)<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <input type="text" class="form-control" id="txtNombre" placeholder="Juan Carlos">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Apellido Paterno<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <input type="text" class="form-control" id="txtApePaterno" placeholder="Perez">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Apellido Materno<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <input type="text" class="form-control" id="txtApeMaterno" placeholder="Martinez">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Telefono<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <input type="text" class="form-control" id="txtTelefono" placeholder="55123456789">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Correo<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <input type="text" class="form-control" id="txtCorreo" placeholder="name@example.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <label for=""><strong>Asunto<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <select class="form-select" id="ddlAsunto">
+                                    <option selected>Seleccione una opcion.</option>
+                                    <option value="1">Error en el Sistema.</option>
+                                    <option value="2">Solicitud de Contacto.</option>
+                                    <option value="3">Otro.</option>
+                                </select>
+                                <input type="text" class="form-control" id="txtOasunto" placeholder="Describa" style="display: none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <label for=""><strong>Descripcion<i class="rq">*</i>:</strong></label>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <textarea class="form-control" id="txtDescripcion" rows="4" placeholder="Describa lo mas detallado posible, la razon por la cual desde ponerse en contacto con nosotros."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="LimpiaDatos()">Cerrar</button>
+                <button type="button" class="btn btn-outline-success" onclick="SenMailContact()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Content/Home.js"></script>
+}

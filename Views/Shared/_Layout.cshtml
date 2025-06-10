@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="globalSpinner" class="spinner-container" style="display: none;">
+        <div class="centered-spinner"></div>
+    </div>
+    @if (Session["UserAutenticate"]?.ToString() == "true")
+    {
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <button id="sidebarToggle" class="toggle-btn mr-2">☰</button>
+            @Html.ActionLink("Mi Aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <div class="ml-auto">
+                <a class="nav-link" href="@Url.Action("Logout", "Account")">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </div>
+        </nav>
+
+        <div class="overlay" id="overlay"></div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item  bg-dark navbar-dark">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <strong>
+                                Configuración
+                            </strong>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show btn-dark" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <a class="nav-link" href="@Url.Action("Index", "Usuarios")">
+                                <i class="nav-icon fas fa-users"></i> Usuarios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group dropend">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropend
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                </ul>
+            </div>
+
+
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <!-- Menú principal con submenús -->
+                    <li class="accordion" id="accordionExample">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="nav-icon fas fa-cog"></i>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Usuarios")">
+                                    <i class="nav-icon fas fa-users"></i> Usuarios
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Roles")">
+                                    <i class="nav-icon fas fa-user-tag"></i> Roles
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Otro menú con submenús -->
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="nav-icon fas fa-chart-bar"></i> Reportes
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Ventas", "Reportes")">
+                                    <i class="nav-icon fas fa-file-invoice-dollar"></i> Ventas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Inventario", "Reportes")">
+                                    <i class="nav-icon fas fa-boxes"></i> Inventario
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú simple sin submenús -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <i class="nav-icon fas fa-home"></i> Inicio
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+
+            <div class="main-content" id="mainContent">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+
+            <footer class="fixed-footer d-flex align-items-center justify-content-center">
+                <div>
+                    &copy; @DateTime.Now.Year - Mi Aplicación ASP.NET
+                </div>
+            </footer>
+            }
+            else
+            {
+            <!-- Solo contenido para usuarios no autenticados -->
+            @RenderBody()
+            }
+
+
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @Scripts.Render("~/Content/site.js")
+            @RenderSection("scripts", required: false)
+</body>
+</html>
