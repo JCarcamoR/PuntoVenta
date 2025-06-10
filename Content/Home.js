@@ -127,11 +127,11 @@ function SenMailContact() {
 
 function SendMailContact() {
     var jsonMail = {
-        nombre: txtNombre + ' ' + txtApePaterno + ' ' + txtApeMaterno,
-        telefono: txtTelefono,
-        correo: txtCorreo,
-        asunto: txtAsunto,
-        descripcion: txtDescripcion
+        Nombre: txtNombre + ' ' + txtApePaterno + ' ' + txtApeMaterno,
+        Telefono: txtTelefono,
+        Correo: txtCorreo,
+        Asunto: txtAsunto,
+        Descripcion: txtDescripcion
     }
 
     $.ajax({
@@ -139,7 +139,7 @@ function SendMailContact() {
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
-        data: jsonMail,
+        data: JSON.stringify(jsonMail),
         success: function (data) {
             if (response.success) {
                 alert("Solicitud de contacto enviada correctamente, a la brevedad un agente se pondrá en contacto con usted");
@@ -151,7 +151,7 @@ function SendMailContact() {
             alert(error);
         },
         complete: function () {
-            hideSpinner()
+            hideSpinner();
         }
     });
 }

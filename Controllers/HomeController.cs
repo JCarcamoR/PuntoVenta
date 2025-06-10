@@ -98,10 +98,10 @@ namespace PuntoVenta.Controllers
         }
 
         [HttpPost]
-        public JsonResult Contact(string nombre, string telefono, string correo, string asunto, string descripcion)
+        public JsonResult Contact(Contact contacto)
         {
             UserAccount user = new UserAccount();
-            user.EnviarCorreoContacto(nombre, telefono, correo, asunto, descripcion);
+            user.EnviarCorreoContacto(contacto);
 
             if (!string.IsNullOrEmpty(user.error))
             {

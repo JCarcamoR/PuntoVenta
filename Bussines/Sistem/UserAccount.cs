@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuntoVenta.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,7 @@ namespace PuntoVenta.Bussines.Sistem
         public UserAccount() {
             error = "";
         }
-        public void EnviarCorreoContacto(string nombre, string telefono, string correo, string asunto, string descripcion)
+        public void EnviarCorreoContacto(Contact contacto)
         {
             try
             {
