@@ -103,9 +103,9 @@ namespace PuntoVenta.Controllers
             UserAccount user = new UserAccount();
             user.EnviarCorreoContacto(contacto);
 
-            if (!string.IsNullOrEmpty(user.error))
+            if (user.error != null)
             {
-                return Json(new { success = false, message = user.error });
+                return Json(new { success = false, message = user.error.message });
             }
             else
             {

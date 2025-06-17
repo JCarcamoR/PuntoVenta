@@ -141,8 +141,10 @@ function SendMailContact() {
         contentType: 'application/json',
         data: JSON.stringify(jsonMail),
         success: function (data) {
-            if (response.success) {
+            if (data.success) {
                 alert("Solicitud de contacto enviada correctamente, a la brevedad un agente se pondrá en contacto con usted");
+                LimpiaDatos();
+
             } else {
                 alert('Ocurrió un error al enviar la solicitud: ' + response.message);
             }
