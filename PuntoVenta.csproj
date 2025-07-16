@@ -2265,6 +2265,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\bootstrap-icons\App_LocalResources\" />
+    <Folder Include="ScriptsDB\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
