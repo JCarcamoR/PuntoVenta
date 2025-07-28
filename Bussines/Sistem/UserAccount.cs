@@ -10,7 +10,7 @@ namespace PuntoVenta.Bussines.Sistem
 {
     public class UserAccount
     {
-        public Errors error { get; set; }
+        public Error error { get; set; }
 
         public UserAccount() {
         }

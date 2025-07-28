@@ -16,7 +16,7 @@ namespace PuntoVenta.Bussines.Services
         string senderSMTP = string.Empty;
         string hostSMPT = string.Empty;
         string userSMTP = string.Empty;
-        public Errors error;
+        public Error error;
         int portSMPT = 0;
         bool ssl = false;
 
@@ -31,7 +31,7 @@ namespace PuntoVenta.Bussines.Services
                 hostSMPT = ConfigurationManager.AppSettings["HostSMTP"].ToString();
                 userSMTP = ConfigurationManager.AppSettings["UserSMTP"].ToString();
                 ssl = Convert.ToBoolean(ConfigurationManager.AppSettings["SSL"]);
-                error = new Errors();
+                error = new Error();
             }
             else
             {

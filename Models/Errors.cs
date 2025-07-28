@@ -5,7 +5,9 @@ using System.Web;
 
 namespace PuntoVenta.Models
 {
-    public class Errors
+    public class Errors : List<Error> { }
+
+    public class Error
     {
         public bool isError { get; set; }
         public string message { get; set; }

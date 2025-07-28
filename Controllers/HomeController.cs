@@ -1,22 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
+﻿using PuntoVenta.Bussines.Sistem;
+using PuntoVenta.Data;
+using PuntoVenta.Models;
+using System;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using PuntoVenta.Bussines.Sistem;
-using PuntoVenta.Data;
-using PuntoVenta.Models;
 
 namespace PuntoVenta.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            if (Session["UserAutenticate"] != null)
+            {
+                if (Session["UserAutenticate"] == "false")
+                {
+                    return RedirectToAction("LogIn", "Home");
+                }
+            }
+
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(-1));
+
+            Menus ltsMenus = new Menus();
+            Security security = new Security();
+
+            ltsMenus = security.GetMenuPerfil("ADMINISTRADOR");
+
+            if (security.errors.Count > 0)
+            {
+                StringBuilder error = new StringBuilder();
+                int cnt = 1;
+                foreach (Error e in security.errors)
+                {
+                    if (e.isError)
+                    {
+                        cnt++;
+                        error.AppendLine($"Error {cnt}: Tipo de Error : {e.tipoError} - Descripcion: {e.message}");
+                    }
+                }
+                ViewBag.error = error.ToString();
+            }
+
+            return View(ltsMenus);
         }
 
         [AllowAnonymous]
@@ -33,39 +63,20 @@ namespace PuntoVenta.Controllers
         {
             if (ModelState.IsValid)
             {
-                Security security = new Security(); 
-                Errors error = new Errors();
+                Security security = new Security();
+                Error error = new Error();
 
                 error = security.ValidaAccesos(user.ACC_DS_USR, user.ACC_DS_PWDR);
 
-                if (error != null && !error.isError) 
+                if (error != null && !error.isError)
                 {
-                    // Opción 1: Usando FormsAuthentication
+                    // Solo esta línea es suficiente:
                     FormsAuthentication.SetAuthCookie(user.ACC_DS_USR, user.session.Rememberme);
-
-                    // Opción 2: Creando manualmente el ticket (más control)
-                    var authTicket = new FormsAuthenticationTicket(
-                        1,                             // versión
-                        user.ACC_DS_USR,                // nombre de usuario
-                        DateTime.Now,                  // creación
-                        DateTime.Now.AddMinutes(30),    // expiración
-                        user.session.Rememberme,               // persistente?
-                        ""                             // datos de usuario (roles, etc)
-                    );
-
-                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-                    var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                    if (user.session.Rememberme)
-                    {
-                        authCookie.Expires = authTicket.Expiration;
-                    }
-                    Response.Cookies.Add(authCookie);
 
                     Session["UserAutenticate"] = "true";
 
-
                     if (Url.IsLocalUrl(returnUrl))
-                    {   
+                    {
                         return Redirect(returnUrl);
                     }
                     else
@@ -81,13 +92,16 @@ namespace PuntoVenta.Controllers
             return View(user);
         }
 
-        // POST: Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login", "Account");
+            Session.Clear();
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            Session["UserAutenticate"] = "false";
+            return RedirectToAction("LogIn", "Home");
         }
 
         public ActionResult About()

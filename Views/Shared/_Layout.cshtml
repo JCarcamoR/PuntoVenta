@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Mi punto de venta.</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -15,122 +15,71 @@
     @if (Session["UserAutenticate"]?.ToString() == "true")
     {
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <button id="sidebarToggle" class="toggle-btn mr-2">☰</button>
-            @Html.ActionLink("Mi Aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <div class="ml-auto">
-                <a class="nav-link" href="@Url.Action("Logout", "Account")">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            <div class="col-lg-10">
+                <a href="/Home/Index" class="btn btn-outline-dark align-items-center">
+                    &nbsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-house-heart-fill" viewBox="0 0 16 16">
+                        <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.707L8 2.207 1.354 8.853a.5.5 0 1 1-.708-.707z" />
+                        <path d="m14 9.293-6-6-6 6V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5zm-6-.811c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.691 0-5.018" />
+                    </svg>
                 </a>
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button-group">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkInv" autocomplete="off">
+                    <label class="btn btn-outline-success" for="btnChkInv" style="color:white"><b>Inventarios</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkCat" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnChkCat" style="color:white"><b>Catalogos</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkReprt" autocomplete="off">
+                    <label class="btn btn-outline-warning" for="btnChkReprt" style="color:white"><b>Reportes</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkAdmin" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="btnChkAdmin" style="color:white"><b>Administracion</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkConfig" autocomplete="off">
+                    <label class="btn btn-outline-light" for="btnChkConfig"><b>Configuracion</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" class="btn-check" id="btnChkMyAccount" autocomplete="off">
+                    <label class="btn btn-outline-info" for="btnChkMyAccount" style="color:white"><b>Mi cuenta</b></label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="col-lg-2 d-flex justify-content-end">
+                @using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" id="btnLogOut" class="btn btn-outline-danger" style="color:white">
+                        <b>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                            </svg>
+                            &nbsp; Salir
+                        </b>
+                    </button>
+                }
+                &nbsp;&nbsp;
             </div>
         </nav>
-
         <div class="overlay" id="overlay"></div>
-
-        <div class="sidebar" id="sidebar">
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item  bg-dark navbar-dark">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <strong>
-                                Configuración
-                            </strong>
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show btn-dark" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <a class="nav-link" href="@Url.Action("Index", "Usuarios")">
-                                <i class="nav-icon fas fa-users"></i> Usuarios
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="btn-group dropend">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropend
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                </ul>
-            </div>
-
-
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <!-- Menú principal con submenús -->
-                    <li class="accordion" id="accordionExample">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon fas fa-cog"></i>
-                        </a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Usuarios")">
-                                    <i class="nav-icon fas fa-users"></i> Usuarios
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index", "Roles")">
-                                    <i class="nav-icon fas fa-user-tag"></i> Roles
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Otro menú con submenús -->
-                    <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="nav-icon fas fa-chart-bar"></i> Reportes
-                        </a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Ventas", "Reportes")">
-                                    <i class="nav-icon fas fa-file-invoice-dollar"></i> Ventas
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Inventario", "Reportes")">
-                                    <i class="nav-icon fas fa-boxes"></i> Inventario
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- Menú simple sin submenús -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Home")">
-                            <i class="nav-icon fas fa-home"></i> Inicio
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-        </div>
-
-            <div class="main-content" id="mainContent">
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-            </div>
-
-            <footer class="fixed-footer d-flex align-items-center justify-content-center">
-                <div>
-                    &copy; @DateTime.Now.Year - Mi Aplicación ASP.NET
-                </div>
-            </footer>
-            }
-            else
-            {
-            <!-- Solo contenido para usuarios no autenticados -->
+        <div class="main-content" style="margin: 10px; padding: 0" id="mainContent">
             @RenderBody()
-            }
+        </div>
+        <footer class="fixed-footer d-flex align-items-center justify-content-center">
+            <div>
+                <b>&copy; @DateTime.Now.Year - Ing. Juan Carlos Carcamo Riveros</b>
+            </div>
+        </footer>
+     }
+     else
+     {
+        @RenderBody()
+     }
 
-
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")
-            @Scripts.Render("~/Content/site.js")
-            @RenderSection("scripts", required: false)
+     @Scripts.Render("~/bundles/jquery")
+     @Scripts.Render("~/bundles/bootstrap")
+     @Scripts.Render("~/Content/site.js")
+     @RenderSection("scripts", required: false)
 </body>
 </html>

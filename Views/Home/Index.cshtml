@@ -1,30 +1,32 @@
-﻿<section>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="title">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-            <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-        </section>
-
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                    enables a clean separation of concerns and gives you full control over markup
-                    for enjoyable, agile development.
-                </p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-                <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-            </section>
+﻿@model PuntoVenta.Models.Menus
+<section>
+    <div class="container">
+        <div class="row row-cols-3 row-cols-lg-5 row-cols-md-3 g-3 g-lg-3 g-md-3">
+            @if (Model != null)
+            {
+                foreach (var menu in Model)
+                {
+                    <a href="@menu.MEN_DS_RUTA" class="text-decoration-none">
+                        <div class="col rounded-4  @(menu.MEN_DS_CLASS) @(menu.MEN_DS_CLASS == "btn btn-light" ? "" : "text-white")" style="min-height: 170px; min-width: 250px; @(menu.MEN_DS_CLASS == "btn btn-light" ? "border-color:black" : "")">
+                            <div class="p-3 text-center">
+                                @if (!string.IsNullOrEmpty(menu.MEN_DS_ICONO))
+                                {
+                                    var iconPath = Server.MapPath($"~/Content/bootstrap-icons/{menu.MEN_DS_ICONO}.svg");
+                                    if (System.IO.File.Exists(iconPath))
+                                    {
+                                        var svgContent = System.IO.File.ReadAllText(iconPath);
+                                        svgContent = svgContent.Replace("<svg", "<svg class=\"icono-svg " + (menu.MEN_DS_CLASS == "btn btn-light" ? "text-black" : "text-white") + "\" fill=\"currentColor\" width=\"54\" height=\"54\"");
+                                        @Html.Raw(svgContent)
+                                    }
+                                }
+                                <br />
+                                <span class="fw-bold fs-4">@menu.MEN_DS_MENU</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
         </div>
+    </div>
 </section>
 

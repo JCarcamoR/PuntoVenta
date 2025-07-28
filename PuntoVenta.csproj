@@ -124,6 +124,8 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Errors.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Perfiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
